@@ -105,3 +105,17 @@ func car (n Node) (Node) {
 	}
 	return List(nil)
 }
+func cons (n Node) (Node) {
+	l := n.(List)
+	var r List
+	r = append(r, Eval(l[1], GlobalEnv))
+	nxt := Eval(l[2], GlobalEnv)
+	switch nxt.(type) {
+	case List:
+		l2 := nxt.(List)
+		r = append(r, l2...)
+	default:
+		r = append(r, nxt)
+	}
+	return r
+}

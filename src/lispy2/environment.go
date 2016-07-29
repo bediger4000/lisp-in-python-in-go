@@ -17,5 +17,6 @@ func StandardEnv() (Environment) {
 	GlobalEnv[S("pi")] = F(math.Pi)
 	GlobalEnv[S("cdr")] = Fn(cdr)
 	GlobalEnv[S("car")] = Fn(car)
+	GlobalEnv[S("cons")] = Fn(cons)
 	return GlobalEnv
 }
