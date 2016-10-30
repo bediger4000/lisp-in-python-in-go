@@ -19,6 +19,8 @@ func PrintList(list List) {
 }
 func PrintNode(n Node) {
 	switch n.(type) {
+	case B:
+		fmt.Printf("%v", n)
 	case I:
 		fmt.Printf("%d", n)
 	case F:
@@ -29,5 +31,7 @@ func PrintNode(n Node) {
 		PrintList(n.(List))
 	case Fn:
 		fmt.Printf("function")
+	default:
+		fmt.Printf("%v - %T", n, n)
 	}
 }

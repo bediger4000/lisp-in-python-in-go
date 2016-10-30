@@ -18,6 +18,8 @@ type S string
 func (s S) isNode() { }
 type Fn func(Node)(Node)
 func (fn Fn) isNode() { }
+type B bool
+func (b B) isNode() { }
 
 func Parse(program string) (Node, error) {
 	_, l, e := realParse(Tokenize(program))
@@ -58,5 +60,7 @@ func atom(token string) (Node) {
 	if err == nil { return F(floatval) }
 	intval, err := strconv.Atoi(token)
 	if err == nil { return I(intval) }
+	if token == "true" { return B(true) }
+	if token == "false" { return B(false) }
 	return S(token)
 }

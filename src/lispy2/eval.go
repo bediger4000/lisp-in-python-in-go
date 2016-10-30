@@ -16,7 +16,7 @@ func Eval(list Node, env Environment) (Node){
 			return list.(List)[0].(Fn)(list)
 		default:
 		}
-	case I, F:
+	case I, F, B:
 		return list
 	case S:
 		n, ok := env[list]
