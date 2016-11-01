@@ -1,31 +1,44 @@
 package lispy2
 import (
-	// "fmt"
+	//"fmt"
 )
 
-func Eval(list Node, env Environment) (Node){
-	switch list.(type) {
-	case List:
-		switch list.(List)[0].(type) {
-		case S:
-			fn, found := env[list.(List)[0]]
-			if found {
-				return fn.(Fn)(list)
-			}
-		case Fn:
-			return list.(List)[0].(Fn)(list)
-		default:
-		}
-	case I, F, B:
-		return list
+func Eval(node Node, env Environment) (Node){
+	switch node.(type) {
 	case S:
-		n, ok := env[list]
-		if ok {
-			return n
+		val, found := env[node]
+		if found {
+			return val
 		} else {
-			return list.(S)
+			return node
 		}
-	case Fn:
+	case List:
+		l := node.(List)
+		switch l[0].(S) {
+		case "if":
+			cond := Eval(l[1], GlobalEnv)
+			if cond.(B) {
+				return Eval(l[2], GlobalEnv)
+			} else {
+				return Eval(l[3], GlobalEnv)
+			}
+		case "quote":
+			return l[1]
+		case "define":
+			symbol := Eval(l[1], GlobalEnv)
+			value  := Eval(l[2], GlobalEnv)
+			GlobalEnv[symbol] = value
+			return value
+		case "begin":
+			var answer Node
+			for _, n := range l {
+				answer = Eval(n, GlobalEnv)
+			}
+			return answer
+		}
+		proc := Eval(l[0], GlobalEnv)
+	default:
+		return node
 	}
-	return nil
+	return node
 }

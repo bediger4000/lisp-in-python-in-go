@@ -15,12 +15,5 @@ func StandardEnv() (Environment) {
 	GlobalEnv[S("/")] = Fn(divideNodes)
 	GlobalEnv[S("==")] = Fn(equalNodes)
 	GlobalEnv[S("pi")] = F(math.Pi)
-	GlobalEnv[S("define")] = Fn(defineSymbol)
-	GlobalEnv[S("begin")] = Fn(evalBegin)
-	GlobalEnv[S("quote")] = Fn(evalQuote)
-	GlobalEnv[S("if")] = Fn(evalIf)
-	GlobalEnv[S("car")] = Fn(evalCar)
-	GlobalEnv[S("cdr")] = Fn(evalCdr)
-	GlobalEnv[S("cons")] = Fn(evalCons)
 	return GlobalEnv
 }
