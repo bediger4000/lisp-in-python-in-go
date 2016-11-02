@@ -15,5 +15,7 @@ func StandardEnv() (Environment) {
 	GlobalEnv[S("/")] = Fn(divideNodes)
 	GlobalEnv[S("==")] = Fn(equalNodes)
 	GlobalEnv[S("pi")] = F(math.Pi)
+	GlobalEnv[S("cdr")] = Fn(cdr)
+	GlobalEnv[S("car")] = Fn(car)
 	return GlobalEnv
 }

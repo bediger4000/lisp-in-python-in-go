@@ -18,6 +18,10 @@ func PrintList(list List) {
 	fmt.Printf(")")
 }
 func PrintNode(n Node) {
+	if n == nil {
+		fmt.Printf("nil")
+		return
+	}
 	switch n.(type) {
 	case B:
 		fmt.Printf("%v", n)

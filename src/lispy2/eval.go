@@ -10,33 +10,47 @@ func Eval(node Node, env Environment) (Node){
 		if found {
 			return val
 		} else {
-			return node
+			return Node(nil)
 		}
 	case List:
 		l := node.(List)
-		switch l[0].(S) {
-		case "if":
-			cond := Eval(l[1], GlobalEnv)
-			if cond.(B) {
-				return Eval(l[2], GlobalEnv)
-			} else {
-				return Eval(l[3], GlobalEnv)
+		switch l[0].(type) {
+		case S:
+			switch l[0].(S) {
+			case "if":
+				cond := Eval(l[1], GlobalEnv)
+				var exp Node
+				if cond.(B) {
+					exp = l[2]
+				} else {
+					exp = l[3]
+				}
+				return Eval(exp, GlobalEnv)
+			case "quote":
+				return l[1]
+			case "define":
+				symbol := Eval(l[1], GlobalEnv)
+				if symbol == nil {
+					symbol = l[1]
+				}
+				value  := Eval(l[2], GlobalEnv)
+				GlobalEnv[symbol] = value
+				return nil
+			case "begin":
+				var answer Node
+				for _, n := range l {
+					answer = Eval(n, GlobalEnv)
+				}
+				return answer
 			}
-		case "quote":
-			return l[1]
-		case "define":
-			symbol := Eval(l[1], GlobalEnv)
-			value  := Eval(l[2], GlobalEnv)
-			GlobalEnv[symbol] = value
-			return value
-		case "begin":
-			var answer Node
-			for _, n := range l {
-				answer = Eval(n, GlobalEnv)
+			proc := Eval(l[0], GlobalEnv)
+			switch proc.(type) {
+			case Fn:
+				return proc.(Fn)(l)
 			}
-			return answer
+		default:
+			return Node(nil)
 		}
-		proc := Eval(l[0], GlobalEnv)
 	default:
 		return node
 	}
