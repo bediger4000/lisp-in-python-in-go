@@ -3,11 +3,11 @@ import (
 	"fmt"
 )
 
-func addNodes(n Node) (Node) {
+func addNodes(n Node, e *Environment) (Node) {
 	sum := 0.0
 	l := n.(List)
 	for _, node := range l[1:] {
-		a :=Eval(node, GlobalEnv)
+		a :=Eval(node, e)
 		switch a.(type) {
 		case F:
 			sum += float64(a.(F))
@@ -17,24 +17,24 @@ func addNodes(n Node) (Node) {
 	}
 	return F(sum)
 }
-func subtractNodes(n Node) (Node) {
+func subtractNodes(n Node, e *Environment) (Node) {
 	switch n.(type) {
 	case List:
 		l := n.(List)
-		sum := float64(Eval(l[1], GlobalEnv).(F))
+		sum := float64(Eval(l[1], e).(F))
 		for _, node := range l[2:] {
-			sum -= float64(Eval(node, GlobalEnv).(F))
+			sum -= float64(Eval(node, e).(F))
 		}
 		return F(sum)
 	default:
 	}
 	return nil
 }
-func multiplyNodes(n Node) (Node) {
+func multiplyNodes(n Node, e *Environment) (Node) {
 	multi := 1.0
 	l := n.(List)
 	for _, node := range l[1:] {
-		a :=Eval(node, GlobalEnv)
+		a :=Eval(node, e)
 		switch a.(type) {
 		case F:
 			multi *= float64(a.(F))
@@ -44,13 +44,13 @@ func multiplyNodes(n Node) (Node) {
 	}
 	return F(multi)
 }
-func divideNodes(n Node) (Node) {
+func divideNodes(n Node, e *Environment) (Node) {
 	l := n.(List)
 	var answer float64
-	a := Eval(l[1], GlobalEnv)
+	a := Eval(l[1], e)
 	switch a.(type) {
 	case F:
-		b := Eval(l[2], GlobalEnv)
+		b := Eval(l[2], e)
 		switch b.(type) {
 		case F:
 			answer = float64(a.(F))
@@ -64,9 +64,9 @@ func divideNodes(n Node) (Node) {
 	}
 	return F(0)
 }
-func equalNodes(n Node) (Node) {
+func equalNodes(n Node, e *Environment) (Node) {
 	l := n.(List)
-	a := Eval(l[1], GlobalEnv)
+	a := Eval(l[1], e)
 	switch a.(type) {
 	case F:
 		b := l[1].(F)
@@ -83,9 +83,9 @@ func equalNodes(n Node) (Node) {
 	}
 	return B(false)
 }
-func cdr (n Node) (Node) {
+func cdr (n Node, e *Environment) (Node) {
 	l := n.(List)
-	a := Eval(l[1], GlobalEnv)
+	a := Eval(l[1], e)
 	switch a.(type) {
 	case List:
 		b := a.(List)[1:]
@@ -94,9 +94,9 @@ func cdr (n Node) (Node) {
 	}
 	return List(nil)
 }
-func car (n Node) (Node) {
+func car (n Node, e *Environment) (Node) {
 	l := n.(List)
-	a := Eval(l[1], GlobalEnv)
+	a := Eval(l[1], e)
 	switch a.(type) {
 	case List:
 		b := a.(List)[0]
@@ -105,11 +105,11 @@ func car (n Node) (Node) {
 	}
 	return List(nil)
 }
-func cons (n Node) (Node) {
+func cons (n Node, e *Environment) (Node) {
 	l := n.(List)
 	var r List
-	r = append(r, Eval(l[1], GlobalEnv))
-	nxt := Eval(l[2], GlobalEnv)
+	r = append(r, Eval(l[1], e))
+	nxt := Eval(l[2], e)
 	switch nxt.(type) {
 	case List:
 		l2 := nxt.(List)
