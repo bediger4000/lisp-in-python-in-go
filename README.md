@@ -29,7 +29,18 @@ a list of `interface{}` as the List type.
     func (fn Fn) isNode() { }
     type B bool
     func (b B) isNode() { }
+    type Pr struct {
+        body Node
+        params Node
+        env *Environment
+    }
+    func (pr Pr) isNode() { }
+
 
 It took me a few minutes, and a good bit of googling, but the Golang interface
 means that I didn't have to do anything dodgy to get a `Node` type that could
 have a `[]Node` as one of its sub-types.
+
+Norvig's Python code takes good advantage of Python magic like `__call__()` methods
+to make executing a lambda expression look exactly the same as executing a built-in
+primitive like '*'. Very clever.
