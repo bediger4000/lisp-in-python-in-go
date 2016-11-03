@@ -24,7 +24,11 @@ func PrintNode(n Node) {
 	}
 	switch n.(type) {
 	case B:
-		fmt.Printf("%v", n)
+		if n.(B) {
+			fmt.Printf("#t")
+		} else {
+			fmt.Printf("#f")
+		}
 	case I:
 		fmt.Printf("%d", n)
 	case F:
@@ -35,6 +39,12 @@ func PrintNode(n Node) {
 		PrintList(n.(List))
 	case Fn:
 		fmt.Printf("function")
+	case Pr:
+		fmt.Printf("(lambda ")
+		PrintNode(n.(Pr).params)
+		fmt.Printf(" ")
+		PrintNode(n.(Pr).body)
+		fmt.Printf(")")
 	default:
 		fmt.Printf("%v - %T", n, n)
 	}
