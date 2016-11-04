@@ -20,6 +20,7 @@ func (e *Environment) find(sym Node) (Node, bool) {
 	}
 	return val, ok
 }
+
 func (e *Environment) def(sym Node, val Node) {
 	e.env[sym] = val
 }
@@ -34,7 +35,8 @@ func newEnv(params Node, args Node, outer *Environment) (*Environment) {
 	a := args.(List)
 
 	for i, sp := range p {
-		e.def(sp, a[i])
+		b := Eval(a[i], outer)
+		e.def(sp, b)
 	}
 
 	return &e
@@ -64,8 +66,8 @@ type Pr struct {
 }
 func (pr Pr) isNode() { }
 
-func (pr Pr) run(n Node, e *Environment) (Node) {
-	local := newEnv(pr.params, n.(List)[1:], pr.env)
+func (pr Pr) run(args Node, e *Environment) (Node) {
+	local := newEnv(pr.params, args.(List), pr.env)
 	return Eval(pr.body, local)
 }
 
