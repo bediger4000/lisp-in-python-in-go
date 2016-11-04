@@ -69,17 +69,14 @@ func equalNodes(n Node, e *Environment) (Node) {
 	a := Eval(l[1], e)
 	switch a.(type) {
 	case F:
-		b := l[1].(F)
-		c := l[2].(F)
-		return B(b == c)
+		b := Eval(l[2], e).(F)
+		return B(a == b)
 	case S:
-		b := l[1].(S)
-		c := l[2].(S)
-		return B(b == c)
+		b := Eval(l[2], e).(S)
+		return B(a == b)
 	case B:
-		b := l[1].(B)
-		c := l[2].(B)
-		return B(b == c)
+		b := Eval(l[2],e).(B)
+		return B(b == a)
 	}
 	return B(false)
 }
