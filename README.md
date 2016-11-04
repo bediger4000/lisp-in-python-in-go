@@ -44,3 +44,23 @@ have a `[]Node` as one of its sub-types.
 Norvig's Python code takes good advantage of Python magic like `__call__()` methods
 to make executing a lambda expression look exactly the same as executing a built-in
 primitive like '*'. Very clever.
+
+##Verification
+
+Beyond just typing in simple forms to see if the pieces work, I decided to quit
+when it could do two things:
+
+1. Calculate factorial 
+2. Execute a self-replicating expression.
+
+It can run two variations on factorial:
+
+	(define fact (lambda (x) (if (== x 1) 1 (* x (fact (- x 1))))))
+	(fact 5)
+	(define fact2 (lambda (y x) (if (== x 1) 1 (* x (y y (- x 1))))))
+	(fact2 fact2 5)
+
+And it runs a self-replicating program:
+
+    ((lambda (y) (cons y y)) (lambda (y) (cons y y)))
+
