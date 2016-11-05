@@ -4,9 +4,13 @@ Peter Norvig's [Lisp in Python](http://norvig.com/lispy.html) implemented
 in Go.
 
 I didn't try to be Scheme spec compliant, I just wanted to see how hard this
-would be in a different programming language.
+would be in a different programming language. I certainly wrote more Golang
+than Norvig wrote Python.
 
-Golang's type system was probably the major barrier.
+The fun is doing 3 languages all at once. Bearing in mind that I'm not a Lisp
+programmer, I got to write an interpreter for a Lisp-style language in Go,
+while understanding the original interpreter in Python.  Golang's type system
+was probably the major barrier.
 
 ## Design Specifics
 
@@ -64,3 +68,6 @@ And it runs a self-replicating program:
 
     ((lambda (y) (cons y y)) (lambda (y) (cons y y)))
 
+This isn't exactly the same as the "canonical" Scheme self-replicating
+program, which has `list` where I have `cons`. I'm not sure I understand
+the subtle differences between lists made with the two function.
