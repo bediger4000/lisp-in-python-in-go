@@ -12,6 +12,14 @@ func stringEval(node Node, env *Environment) Node {
 	}
 }
 
+func procEval(pr Pr, l List, env *Environment) Node {
+	var args List
+	for _, exp := range l[1:] {
+		args = append(args, Eval(exp, env))
+	}
+	return pr.run(args, env)
+}
+
 func listEval(l List, env *Environment) Node {
 	switch l[0].(type) {
 	case S:
@@ -50,20 +58,10 @@ func listEval(l List, env *Environment) Node {
 		case Fn:
 			return proc.(Fn)(l, env)
 		case Pr:
-			pr := proc.(Pr)
-			var args List
-			for _, exp := range l[1:] {
-				args = append(args, Eval(exp, env))
-			}
-			return pr.run(args, env)
+			return procEval(proc.(Pr), l, env)
 		}
 	case Pr:
-		pr := l[0].(Pr)
-		var args List
-		for _, exp := range l[1:] {
-			args = append(args, Eval(exp, env))
-		}
-		return pr.run(args, env)
+		return procEval(l[0].(Pr), l, env)
 	case List:
 		var newList List
 		for _, item := range l {
