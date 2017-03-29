@@ -1,4 +1,4 @@
-#Lisp in Python in Go
+# Lisp in Python in Go
 
 Peter Norvig's [Lisp in Python](http://norvig.com/lispy.html) implemented
 in Go.
@@ -49,7 +49,7 @@ Norvig's Python code takes good advantage of Python magic like `__call__()` meth
 to make executing a lambda expression look exactly the same as executing a built-in
 primitive like '*'. Very clever.
 
-##Verification
+## Verification
 
 Beyond just typing in simple forms to see if the pieces work, I decided to quit
 when it could do two things:
